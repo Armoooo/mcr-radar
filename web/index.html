@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A personal radar for events worth leaving the house for in Manchester.">
+    <meta name="theme-color" content="#f2efea">
+    <title>MCR Radar — Manchester, worth going out for</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#events">Skip to events</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="MCR Radar home">
+        <span class="brand__signal" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>MCR<span>/</span>RADAR</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#events">Explore</a>
+        <button class="saved-link" type="button" data-show-saved>
+          Saved <span data-saved-count>0</span>
+        </button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <p class="eyebrow"><span></span> Made for Manchester weekends</p>
+          <h1 id="hero-title">Find something<br><em>worth going out for.</em></h1>
+          <p class="hero__lede">A personal shortlist of gigs, comedy, food and interesting things happening around the city—without opening twelve different tabs.</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#events">See what’s on <span aria-hidden="true">↓</span></a>
+            <button class="button button--quiet" type="button" data-pick-event>Pick one for me</button>
+          </div>
+        </div>
+
+        <div class="hero__radar" aria-hidden="true">
+          <div class="radar">
+            <div class="radar__ring radar__ring--one"></div>
+            <div class="radar__ring radar__ring--two"></div>
+            <div class="radar__ring radar__ring--three"></div>
+            <div class="radar__sweep"></div>
+            <i class="radar__point radar__point--one"></i>
+            <i class="radar__point radar__point--two"></i>
+            <i class="radar__point radar__point--three"></i>
+            <span class="radar__label">53.4808° N<br>2.2426° W</span>
+          </div>
+        </div>
+
+        <aside class="weather-strip" aria-label="Manchester weather forecast">
+          <div class="weather-strip__intro">
+            <span>Weekend outlook</span>
+            <strong data-weather-summary>Checking the skies…</strong>
+          </div>
+          <div class="weather-days" data-weather-days aria-live="polite"></div>
+          <p class="weather-credit" data-weather-credit hidden>Weather by Open-Meteo</p>
+        </aside>
+      </section>
+
+      <section class="events-section" id="events" aria-labelledby="events-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span></span> On the radar</p>
+            <h2 id="events-title">Your next good plan.</h2>
+          </div>
+          <p class="section-heading__note">Updated from local event sources, with repeats taken out.</p>
+        </div>
+
+        <div class="controls" aria-label="Filter events">
+          <label class="search-field">
+            <span class="sr-only">Search events</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path></svg>
+            <input type="search" placeholder="Search events or venues" data-search>
+          </label>
+          <div class="date-filter" role="group" aria-label="Filter by date">
+            <button class="is-active" type="button" data-date="all">All dates</button>
+            <button type="button" data-date="today">Today</button>
+            <button type="button" data-date="weekend">This weekend</button>
+          </div>
+        </div>
+
+        <div class="category-filter" data-categories aria-label="Filter by category"></div>
+
+        <div class="results-meta">
+          <p data-results-count aria-live="polite">Loading the radar…</p>
+          <p class="mode-note" data-mode-note></p>
+        </div>
+
+        <div class="event-grid" data-events aria-busy="true"></div>
+
+        <div class="empty-state" data-empty hidden>
+          <span aria-hidden="true">◎</span>
+          <h3>Nothing on that frequency.</h3>
+          <p>Try another category or clear your search.</p>
+          <button class="button button--primary" type="button" data-clear-filters>Clear filters</button>
+        </div>
+      </section>
+
+      <section class="about-strip" aria-label="How MCR Radar works">
+        <p class="about-strip__number">01</p>
+        <h2>Less searching.<br>More doing.</h2>
+        <p>MCR Radar brings several event feeds into one place, removes duplicates and puts the things you’re likely to enjoy first.</p>
+        <div class="about-strip__flow" aria-label="Collect, clean, recommend">
+          <span>Collect</span><i></i><span>Clean</span><i></i><span>Recommend</span>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="saved-dialog" data-saved-dialog aria-labelledby="saved-title">
+      <div class="saved-dialog__header">
+        <div>
+          <p class="eyebrow"><span></span> Your shortlist</p>
+          <h2 id="saved-title">Saved plans</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-saved aria-label="Close saved events"><span></span></button>
+      </div>
+      <div class="saved-list" data-saved-list></div>
+    </dialog>
+
+    <footer>
+      <a class="brand" href="#top"><span>MCR<span>/</span>RADAR</span></a>
+      <p>Built in Manchester with Go.</p>
+      <p>Event details remain with their original providers.</p>
+    </footer>
+
+    <template id="event-card-template">
+      <article class="event-card">
+        <div class="event-card__visual">
+          <img alt="" loading="lazy" hidden>
+          <div class="event-card__fallback" aria-hidden="true"><span></span><i></i></div>
+          <p class="event-card__category"></p>
+          <button class="save-button" type="button" aria-label="Save event">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.5 4.5h11v16L12 17l-5.5 3.5z"></path></svg>
+          </button>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__date"><strong></strong><span></span></div>
+          <div class="event-card__copy">
+            <h3></h3>
+            <p class="event-card__venue"></p>
+            <p class="event-card__summary"></p>
+          </div>
+          <div class="event-card__footer">
+            <span class="event-card__price"></span>
+            <a target="_blank" rel="noreferrer"><span class="event-card__source"></span> <span aria-hidden="true">↗</span></a>
+            <span class="event-card__demo">Preview event</span>
+          </div>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>
